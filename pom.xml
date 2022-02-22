@@ -10,10 +10,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<artifactId>kafka-error</artifactId>
+	<artifactId>kafka-error-consumer</artifactId>
 	<version>unversioned</version>
 	<name>kafka-spring</name>
-	<description>Spring Kafka POC.</description>
+	<description>Spring Kafka Error Consumer (Replay Errors)</description>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -105,11 +105,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
 		</dependency>
-		<!--dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20210307</version>
-		</dependency-->
 
 		<!-- Test -->
 		<dependency>
@@ -201,11 +196,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
-
-
-
 		</plugins>
 	</build>
 </project>
