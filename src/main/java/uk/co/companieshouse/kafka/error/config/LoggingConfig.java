@@ -11,7 +11,6 @@ import uk.gov.companieshouse.logging.LoggerFactory;
  * Configuration class for logging.
  */
 @Configuration
-@PropertySource("classpath:logger.properties")
 public class LoggingConfig {
 
     @SuppressWarnings("unused")

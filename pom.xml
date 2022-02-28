@@ -52,7 +52,7 @@
 		<!-- Sonar dependency -->
 		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.projectKey>uk.gov.companieshouse:officer-delta-processor</sonar.projectKey>
+		<sonar.projectKey>uk.gov.companieshouse:kafka-error-consumer</sonar.projectKey>
 		<sonar.sources>src/main</sonar.sources>
 		<sonar.tests>src/test</sonar.tests>
 		<sonar.verbose>true</sonar.verbose>

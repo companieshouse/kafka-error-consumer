@@ -8,6 +8,8 @@ This application will move records from its configured error topic into the conf
 
 The default behaviour is to start at the previous offset and continue processing until it reaches the offset which was current when the application started. The application then stops consuming records, but does not end so that it is not restarted by the infrastructure.
 
+New consumers will start at the earliest offset (`ConsumerConfig.AUTO_OFFSET_RESET_CONFIG = "earliest"`).
+
 Example 
 
 - The last time it ran, the application consumed records from the error topic up to 55.
@@ -36,4 +38,5 @@ Name                                      | Description                         
 KAFKA_ERROR_BOOTSTRAP_ADDRESS             | Kafka bootstrap address                                     |           | localhost:9092     | kafka-url:9092
 KAFKA_ERROR_ERROR_TOPIC                   | name of the error topic to consume from                     | ✓         |                    | insolvency-delta-error
 KAFKA_ERROR_RETRY_TOPIC                   | name of the retry topic to send to                          | ✓         |                    | insolvency-delta-retry
-KAFKA_ERROR_GROUP_ID                      | name of kafka client group ID to use                        |           | kafka-error        | kafka-error-2
+KAFKA_ERROR_CONSUMER_GROUP_ID             | name of kafka consumer group ID to use                      |           | kafka-error        | kafka-error-2
+LOGGER_NAMESPACE                          | namespace for CH structured logging                         | ✓         |                    | insolvency-delta-error-consumer

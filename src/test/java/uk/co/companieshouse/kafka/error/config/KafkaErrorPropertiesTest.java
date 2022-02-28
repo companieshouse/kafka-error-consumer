@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @TestPropertySource(properties = {
         "kafka.error.retryTopic=testRetryTopic",
         "kafka.error.errorTopic=testErrorTopic",
-        "kafka.error.groupId=testGroup"
+        "kafka.error.consumerGroupId=testConsumerGroupId"
 })
 public class KafkaErrorPropertiesTest {
 
@@ -29,7 +29,7 @@ public class KafkaErrorPropertiesTest {
         assertThat(kafkaErrorProperties, is(notNullValue()));
         assertThat(kafkaErrorProperties.getErrorTopic(), is("testErrorTopic"));
         assertThat(kafkaErrorProperties.getRetryTopic(), is("testRetryTopic"));
-        assertThat(kafkaErrorProperties.getGroupId(), is("testGroup"));
+        assertThat(kafkaErrorProperties.getConsumerGroupId(), is("testConsumerGroupId"));
         assertThat(kafkaErrorProperties.getBootstrapAddress(), is("localhost:9092"));
 
     }

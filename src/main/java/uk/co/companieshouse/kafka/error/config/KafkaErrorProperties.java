@@ -1,11 +1,12 @@
 package uk.co.companieshouse.kafka.error.config;
 
-
-import javax.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
+
+@Validated
 @Configuration
 @ConfigurationProperties(prefix = "kafka.error")
 public class KafkaErrorProperties {
@@ -16,7 +17,7 @@ public class KafkaErrorProperties {
     @NotBlank
     String errorTopic;
 
-    private String groupId = "kafka-error";
+    private String consumerGroupId = "kafka-error";
 
     private String bootstrapAddress = "localhost:9092";
 
@@ -36,12 +37,12 @@ public class KafkaErrorProperties {
         this.errorTopic = errorTopic;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public String getConsumerGroupId() {
+        return consumerGroupId;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setConsumerGroupId(String consumerGroupId) {
+        this.consumerGroupId = consumerGroupId;
     }
 
     public String getBootstrapAddress() {

@@ -40,7 +40,7 @@ public class KafkaConsumerConfig {
                 kafkaErrorProperties.getBootstrapAddress());
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                kafkaErrorProperties.getGroupId());
+                kafkaErrorProperties.getConsumerGroupId());
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);

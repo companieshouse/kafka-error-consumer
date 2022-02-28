@@ -44,7 +44,7 @@ public class DltConsumer {
     @SendTo("#{kafkaErrorProperties.retryTopic}")
     @KafkaListener(topicPartitions = {
             @org.springframework.kafka.annotation.TopicPartition(topic = "#{kafkaErrorProperties.errorTopic}",
-                    partitions = "0")}, id = CONSUMER_ID, groupId = "#{kafkaErrorProperties.groupId}")
+                    partitions = "0")}, id = CONSUMER_ID, groupId = "#{kafkaErrorProperties.consumerGroupId}")
     public Message<Object> listenGroupFoo(ConsumerRecord<String, Object> record,
             @Headers Map<String, ?> headers, Consumer<?, ?> consumer) {
         Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
@@ -57,10 +57,10 @@ public class DltConsumer {
         logger.info(" ERROR REPLAY for offset : " + offset);
 
         if (offset >= endOffset) {
-            logger.info("STOPPING listener");
+            logger.info("Error consumer has reached offset " + endOffset + " - STOPPING consumer");
             kafkaListenerEndpointRegistry.getListenerContainer(CONSUMER_ID)
                     .pausePartition(new TopicPartition(kafkaErrorProperties.getErrorTopic(), 0));
-            logger.info("STOPPED listener");
+            logger.info("STOPPED consumer");
         }
 
         return MessageBuilder.withPayload(record.value())
