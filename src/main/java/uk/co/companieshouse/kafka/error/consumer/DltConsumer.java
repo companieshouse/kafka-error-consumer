@@ -1,11 +1,8 @@
 package uk.co.companieshouse.kafka.error.consumer;
 
-import java.util.List;
-import java.util.Map;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -17,19 +14,21 @@ import org.springframework.stereotype.Component;
 import uk.co.companieshouse.kafka.error.config.KafkaErrorProperties;
 import uk.gov.companieshouse.logging.Logger;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
 public class DltConsumer {
 
     public final static String CONSUMER_ID = "error-consumer";
+    public final static String REPLAY_HEADER_MILLIS = "ch-error-topic_replay-millis";
 
     private final Logger logger;
 
     private Long endOffset;
 
-    @Autowired
     KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-    @Autowired
     KafkaErrorProperties kafkaErrorProperties;
 
     /**
@@ -37,7 +36,9 @@ public class DltConsumer {
      *
      * @param logger the structured logger
      */
-    public DltConsumer(final Logger logger) {
+    public DltConsumer(KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry, KafkaErrorProperties kafkaErrorProperties, final Logger logger) {
+        this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
+        this.kafkaErrorProperties = kafkaErrorProperties;
         this.logger = logger;
     }
 
@@ -45,13 +46,13 @@ public class DltConsumer {
     @KafkaListener(topicPartitions = {
             @org.springframework.kafka.annotation.TopicPartition(topic = "#{kafkaErrorProperties.errorTopic}",
                     partitions = "0")}, id = CONSUMER_ID, groupId = "#{kafkaErrorProperties.consumerGroupId}")
-    public Message<Object> listenGroupFoo(ConsumerRecord<String, Object> record,
-            @Headers Map<String, ?> headers, Consumer<?, ?> consumer) {
+    public Message<Object> listenErrors(ConsumerRecord<String, Object> record,
+                                        @Headers Map<String, ?> headers, Consumer<?, ?> consumer) {
         Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
+        TopicPartition topicPartition = new TopicPartition(kafkaErrorProperties.getErrorTopic(), 0);
 
         if (endOffset == null) {
-            TopicPartition tp = new TopicPartition(kafkaErrorProperties.getErrorTopic(), 0);
-            endOffset = consumer.endOffsets(List.of(tp)).get(tp) - 1;
+            endOffset = consumer.endOffsets(List.of(topicPartition)).get(topicPartition) - 1;
         }
 
         logger.info(" ERROR REPLAY for offset : " + offset);
@@ -59,14 +60,12 @@ public class DltConsumer {
         if (offset >= endOffset) {
             logger.info("Error consumer has reached offset " + endOffset + " - STOPPING consumer");
             kafkaListenerEndpointRegistry.getListenerContainer(CONSUMER_ID)
-                    .pausePartition(new TopicPartition(kafkaErrorProperties.getErrorTopic(), 0));
+                    .pausePartition(topicPartition);
             logger.info("STOPPED consumer");
         }
 
         return MessageBuilder.withPayload(record.value())
-                .setHeader("ch-error-topic_replay-millis", System.currentTimeMillis())
+                .setHeader(REPLAY_HEADER_MILLIS, System.currentTimeMillis())
                 .build();
-
     }
-
 }
