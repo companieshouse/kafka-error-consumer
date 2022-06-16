@@ -40,3 +40,5 @@ KAFKA_ERROR_ERROR_TOPIC                   | name of the error topic to consume f
 KAFKA_ERROR_RETRY_TOPIC                   | name of the retry topic to send to                          | ✓         |                    | insolvency-delta-retry
 KAFKA_ERROR_CONSUMER_GROUP_ID             | name of kafka consumer group ID to use                      |           | kafka-error        | kafka-error-2
 LOGGER_NAMESPACE                          | namespace for CH structured logging                         | ✓         |                    | insolvency-delta-error-consumer
+
+#
