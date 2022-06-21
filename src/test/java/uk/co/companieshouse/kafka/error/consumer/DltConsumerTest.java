@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.listener.MessageListenerContainer;
@@ -34,8 +35,8 @@ public class DltConsumerTest {
     @Mock
     KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-    @Mock
-    KafkaErrorProperties kafkaErrorProperties;
+    @Spy
+    KafkaErrorProperties kafkaErrorProperties = new KafkaErrorProperties();
 
     @Mock
     Consumer<?, ?> consumer;
@@ -73,7 +74,7 @@ public class DltConsumerTest {
         if (expectedPause > 0) {
             when(kafkaListenerEndpointRegistry.getListenerContainer(CONSUMER_ID)).thenReturn(messageListenerContainer);
         }
-        when(kafkaErrorProperties.getErrorTopic()).thenReturn(TOPIC);
+        kafkaErrorProperties.setErrorTopic(TOPIC);
 
         Message<Object> result = dltConsumer.listenErrors(record, headers, consumer);
 
