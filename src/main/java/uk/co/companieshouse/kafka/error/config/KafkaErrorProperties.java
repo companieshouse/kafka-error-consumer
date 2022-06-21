@@ -21,6 +21,12 @@ public class KafkaErrorProperties {
 
     private String bootstrapAddress = "localhost:9092";
 
+    private Long startOffset;
+
+    private Long endOffset;
+
+    private Integer partition = 0;
+
     public String getRetryTopic() {
         return retryTopic;
     }
@@ -51,5 +57,28 @@ public class KafkaErrorProperties {
 
     public void setBootstrapAddress(String bootstrapAddress) {
         this.bootstrapAddress = bootstrapAddress;
+    }
+
+    public Long getStartOffset() {
+        return startOffset;
+    }
+
+    public void setStartOffset(Long startOffset) {
+        this.startOffset = startOffset;
+    }
+    public Long getEndOffset() {
+        return endOffset;
+    }
+
+    public void setEndOffset(Long endOffset) {
+        this.endOffset = endOffset;
+    }
+
+    public Integer getPartition() {
+        return partition;
+    }
+
+    public void setPartition(Integer partition) {
+        this.partition = partition;
     }
 }

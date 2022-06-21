@@ -39,6 +39,9 @@ KAFKA_ERROR_BOOTSTRAP_ADDRESS             | Kafka bootstrap address             
 KAFKA_ERROR_ERROR_TOPIC                   | name of the error topic to consume from                     | ✓         |                    | insolvency-delta-error
 KAFKA_ERROR_RETRY_TOPIC                   | name of the retry topic to send to                          | ✓         |                    | insolvency-delta-retry
 KAFKA_ERROR_CONSUMER_GROUP_ID             | name of kafka consumer group ID to use                      |           | kafka-error        | kafka-error-2
+KAFKA_ERROR_START_OFFSET                  | offset to start consuming from                              |           | (uses last offset) | 389
+KAFKA_ERROR_END_OFFSET                    | offset to consume to                                        |           | (to last record)   | 389
+KAFKA_ERROR_PARTITION                     | partition to consume from                                   |           | 0                  | 1
 LOGGER_NAMESPACE                          | namespace for CH structured logging                         | ✓         |                    | insolvency-delta-error-consumer
 
 #
