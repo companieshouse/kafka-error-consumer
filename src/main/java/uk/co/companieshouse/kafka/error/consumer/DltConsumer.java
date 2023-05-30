@@ -30,7 +30,7 @@ public class DltConsumer implements ConsumerSeekAware {
 
     KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-    //KafkaErrorProperties kafkaErrorProperties;
+    KafkaErrorProperties kafkaErrorProperties;
 
     /**
      * Initialise the consumer by connecting to the consumer group

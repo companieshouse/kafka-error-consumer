@@ -3,6 +3,7 @@ package uk.co.companieshouse.kafka.error.consumer;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,6 +53,7 @@ public class DltConsumerTest {
 
     @Test
     void testConsumer() throws Exception {
+        Assertions.fail();
         executeTest(10L, 100L, 1, 0);
         executeTest(100L, 100L, 0, 1);
     }
