@@ -53,7 +53,6 @@ public class DltConsumerTest {
 
     @Test
     void testConsumer() throws Exception {
-        Assertions.fail();
         executeTest(10L, 100L, 1, 0);
         executeTest(100L, 100L, 0, 1);
     }
