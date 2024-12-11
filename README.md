@@ -43,7 +43,6 @@ KAFKA_ERROR_START_OFFSET                  | offset to start consuming from      
 KAFKA_ERROR_END_OFFSET                    | offset to consume to                                        |           | (to last record)   | 389
 KAFKA_ERROR_PARTITION                     | partition to consume from                                   |           | 0                  | 1
 LOGGER_NAMESPACE                          | namespace for CH structured logging                         | ✓         |                    | insolvency-delta-error-consumer
-
 #
 ## Terraform ECS
 ### What does this code do?
