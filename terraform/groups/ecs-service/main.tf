@@ -64,6 +64,8 @@ module "ecs-service" {
   use_capacity_provider              = var.use_capacity_provider
   use_fargate                        = var.use_fargate
   fargate_subnets                    = local.application_subnet_ids
+  service_autoscale_scale_in_cooldown  = var.service_autoscale_scale_in_cooldown
+  service_autoscale_scale_out_cooldown = var.service_autoscale_scale_out_cooldown
 
   # Service environment variable and secret configs
   task_environment          = local.task_environment

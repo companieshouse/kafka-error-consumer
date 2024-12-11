@@ -50,7 +50,7 @@ The code present in this repository is used to define and deploy a dockerised co
 This is done by calling a [module](https://github.com/companieshouse/terraform-modules/tree/main/aws/ecs) from terraform-modules. Application specific attributes are injected and the service is then deployed using Terraform via the CICD platform 'Concourse'.
 Application specific attributes | Value                                | Description
 :---------|:-----------------------------------------------------------------------------|:-----------
-**ECS Cluster**        |order-service                                      | ECS cluster (stack) the service belongs to
+**ECS Cluster**        |order-service                                      | ECS cluster stack the service belongs to
 **Concourse pipeline**     |[Pipeline link](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/kafka-error-consumer) <br> [Pipeline code](https://github.com/companieshouse/ci-pipelines/blob/master/pipelines/ssplatform/team-development/kafka-error-consumer)                               | Concourse pipeline link in shared services
 ### Contributing
 - Please refer to the [ECS Development and Infrastructure Documentation](https://companieshouse.atlassian.net/wiki/spaces/DEVOPS/pages/4390649858/Copy+of+ECS+Development+and+Infrastructure+Documentation+Updated) for detailed information on the infrastructure being deployed.
