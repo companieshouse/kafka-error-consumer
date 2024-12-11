@@ -117,3 +117,13 @@ variable "kafka_error_consumer_version" {
   description = "The version of the kafka-error-consumer container to run."
 }
 
+variable "service_autoscale_scale_in_cooldown" {
+  type        = number
+  description = "Cooldown in seconds for ECS Service scale in (run fewer tasks)"
+  default     = 300
+}
+variable "service_autoscale_scale_out_cooldown" {
+  type        = number
+  description = "Cooldown in seconds for ECS Service scale out (add more tasks)"
+  default     = 300
+}
