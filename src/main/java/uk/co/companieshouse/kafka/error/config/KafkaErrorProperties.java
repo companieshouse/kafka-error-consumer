@@ -1,10 +1,9 @@
 package uk.co.companieshouse.kafka.error.config;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.NotBlank;
 
 @Validated
 @Configuration
@@ -66,6 +65,7 @@ public class KafkaErrorProperties {
     public void setStartOffset(Long startOffset) {
         this.startOffset = startOffset;
     }
+
     public Long getEndOffset() {
         return endOffset;
     }
