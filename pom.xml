@@ -48,8 +48,8 @@
 		</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.jacoco.reports>${project.basedir}/target/site</sonar.jacoco.reports>
 
-    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-	  <jib-maven-plugin.version>3.4.2</jib-maven-plugin.version>
+    	<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+		<jib-maven-plugin.version>3.4.2</jib-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
