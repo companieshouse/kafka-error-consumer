@@ -28,6 +28,32 @@ In order to build kafka-error-consumer locally you will need the following:
 1. Run mvn clean install
 2. Run mvn spring-boot:run
 
+## Running Locally
+
+Kafka-error-consumer is configured in docker-chs-project, the docker-compose file includes all the listed environment variables, and can be configured for local running there.
+
+Enable the following services with `chs-dev services enable`:
+- kafka-error-consumer
+- kafka
+- zookeeper
+
+**Using and configuring kafka locally:**
+
+Enter into the kafka container using `docker exec -it docker-chs-development-kafka-1 bash`
+
+Cd into the folder with the kafka scripts using `cd /opt/bitnami/kafka/bin`, here you can run any of the scrips and it will print out the help information for that script
+
+You can check what topics have been created in your kafka instance using `./kafka-topics.sh --bootstrap-server localhost:9092 --list`
+this will allow you to confirm both your error queue and retry queue exist for your local testing
+
+You can push a message onto the kafka error topic you are using (in this example I am using insolvency-delta-error) 
+with the following command `./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic insolvency-delta-error`.
+You can then type a message, press enter, and exit the command with `command + c`
+
+You can check the content of the topic using `./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic insolvency-delta-error --from-beginning`
+
+Providing everything is working, you should see your message on the retry queue, confirming kafka-error-consumer is working correctly.
+
 Environment Variables
 ---------------------
 The supported environmental variables are as follows.
