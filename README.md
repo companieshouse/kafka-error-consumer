@@ -76,7 +76,7 @@ The code present in this repository is used to define and deploy a __kafka-error
 
 This is done by calling a [module](https://github.com/companieshouse/terraform-modules/tree/main/aws/ecs) from terraform-modules. Application specific attributes are injected and the service is then deployed using Terraform via the CICD platform 'Concourse'. 
 
-Once creating the image for this service, the kafka-error-consumer will be used accross twelve delta consumer services (like for example [insolvency-delta-consumer](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/insolvency-delta-consumer)).  In this "delta-consumer" service, the kafka-error-consumer image is implemented as a pipeline resource called kafka-error-release-tag, displaying its functionality inside the insolvency-delta-consumer service pipeline.
+Once created the image for this service, the kafka-error-consumer will be used accross twelve delta consumer services (like for example [insolvency-delta-consumer](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/insolvency-delta-consumer)).  In this "delta-consumer" service, the kafka-error-consumer image is implemented as a pipeline resource called kafka-error-release-tag, displaying its functionality inside the insolvency-delta-consumer service pipeline.
 
 #
 Application specific attributes | Value                                | Description
