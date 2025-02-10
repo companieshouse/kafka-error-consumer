@@ -72,11 +72,9 @@ LOGGER_NAMESPACE                          | namespace for CH structured logging 
 #
 ## ECR container
 ### What does this code do?
-The code present in this repository is used to define and deploy a __kafka-error-consumer__ dockerised container image in AWS ECS.
+The code present in this repository is used to define and deploy a __kafka-error-consumer__ dockerised container image in AWS ECR, via the CICD platform 'Concourse'.
 
-This is done by calling a [module](https://github.com/companieshouse/terraform-modules/tree/main/aws/ecs) from terraform-modules. Application specific attributes are injected and the service is then deployed using Terraform via the CICD platform 'Concourse'. 
-
-Once created the image for this service, the kafka-error-consumer will be used accross twelve delta consumer services (like for example [insolvency-delta-consumer](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/insolvency-delta-consumer)).  In this "delta-consumer" service, the kafka-error-consumer image is implemented as a pipeline resource called kafka-error-release-tag, displaying its functionality inside the insolvency-delta-consumer service pipeline.
+The same kafka-error-consumer image will be used accross 12 delta consumer services (for example [insolvency-delta-consumer](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/insolvency-delta-consumer)).  In this "delta-consumer" service, the kafka-error-consumer image is implemented as a pipeline resource called [kafka-error-release-tag](https://github.com/companieshouse/ci-pipelines/blob/7e0cfd7c9db47d0323e87f0956549796ef12d5a7/pipelines/ssplatform/team-development/insolvency-delta-consumer#L1274), which is used to deploy a corresponding kafka-error service alongside the delta consumer. This is done via terraform in an additional ecs-service-kafka-error module, within the insolvency-delta-consumer terraform code.
 
 #
 Application specific attributes | Value                                | Description
