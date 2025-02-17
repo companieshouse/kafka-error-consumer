@@ -1,5 +1,7 @@
 package uk.co.companieshouse.kafka.error.consumer;
 
+import java.util.List;
+import java.util.Map;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
@@ -15,14 +17,11 @@ import org.springframework.stereotype.Component;
 import uk.co.companieshouse.kafka.error.config.KafkaErrorProperties;
 import uk.gov.companieshouse.logging.Logger;
 
-import java.util.List;
-import java.util.Map;
-
 @Component
 public class DltConsumer implements ConsumerSeekAware {
 
-    public final static String CONSUMER_ID = "error-consumer";
     public final static String REPLAY_HEADER_MILLIS = "ch-error-topic_replay-millis";
+    public final static String CONSUMER_ID = "error-consumer";
 
     private final Logger logger;
 
@@ -37,7 +36,8 @@ public class DltConsumer implements ConsumerSeekAware {
      *
      * @param logger the structured logger
      */
-    public DltConsumer(KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry, KafkaErrorProperties kafkaErrorProperties, final Logger logger) {
+    public DltConsumer(KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry,
+            KafkaErrorProperties kafkaErrorProperties, final Logger logger) {
         this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
         this.kafkaErrorProperties = kafkaErrorProperties;
         if (kafkaErrorProperties.getEndOffset() != null) {
@@ -51,9 +51,10 @@ public class DltConsumer implements ConsumerSeekAware {
             @org.springframework.kafka.annotation.TopicPartition(topic = "#{kafkaErrorProperties.errorTopic}",
                     partitions = "#{kafkaErrorProperties.partition}")}, id = CONSUMER_ID, groupId = "#{kafkaErrorProperties.consumerGroupId}")
     public Message<Object> listenErrors(ConsumerRecord<String, Object> record,
-                                        @Headers Map<String, ?> headers, Consumer<?, ?> consumer) {
+            @Headers Map<String, ?> headers, Consumer<?, ?> consumer) {
         Long offset = (Long) headers.get(KafkaHeaders.OFFSET);
-        TopicPartition topicPartition = new TopicPartition(kafkaErrorProperties.getErrorTopic(), kafkaErrorProperties.getPartition());
+        TopicPartition topicPartition = new TopicPartition(kafkaErrorProperties.getErrorTopic(),
+                kafkaErrorProperties.getPartition());
 
         if (endOffset == null) {
             endOffset = consumer.endOffsets(List.of(topicPartition)).get(topicPartition) - 1;
@@ -74,10 +75,13 @@ public class DltConsumer implements ConsumerSeekAware {
     }
 
     @Override
-    public void onPartitionsAssigned(Map<TopicPartition, Long> assignments, ConsumerSeekCallback callback) {
+    public void onPartitionsAssigned(Map<TopicPartition, Long> assignments,
+            ConsumerSeekCallback callback) {
 
         if (kafkaErrorProperties.getStartOffset() != null) {
-            assignments.keySet().forEach(partition -> callback.seek(partition.topic(), partition.partition(), kafkaErrorProperties.getStartOffset()));
+            assignments.keySet().forEach(
+                    partition -> callback.seek(partition.topic(), partition.partition(),
+                            kafkaErrorProperties.getStartOffset()));
         }
     }
 }

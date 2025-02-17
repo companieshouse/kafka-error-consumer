@@ -1,7 +1,15 @@
 package uk.co.companieshouse.kafka.error.consumer;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static uk.co.companieshouse.kafka.error.consumer.TestConsumer.TEST_CONSUMER_ID;
+
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,17 +17,12 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.ActiveProfiles;
 import uk.co.companieshouse.kafka.error.config.KafkaErrorProperties;
 
-import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static uk.co.companieshouse.kafka.error.consumer.TestConsumer.TEST_CONSUMER_ID;
-
 @SpringBootTest
 @ActiveProfiles("test")
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092",
         "port=9092"})
-public class DltConsumerEmbeddedKafkaTest {
+@EnableConfigurationProperties(value = KafkaErrorProperties.class)
+class DltConsumerEmbeddedKafkaTest {
 
     @Autowired
     private TestConsumer consumer;

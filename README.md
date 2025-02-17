@@ -20,13 +20,39 @@ Currently, this application will only process records on partition 0 of the erro
 
 ## Requirements
 In order to build kafka-error-consumer locally you will need the following:
-- [Java 11](https://www.oracle.com/java/technologies/downloads/#java11)
+- [Java 21](https://www.oracle.com/java/technologies/downloads/#java11)
 - [Maven](https://maven.apache.org/download.cgi)
 - [Git](https://git-scm.com/downloads)
 
 ## Getting started
 1. Run mvn clean install
 2. Run mvn spring-boot:run
+
+## Running Locally
+
+Kafka-error-consumer is configured in docker-chs-project, the docker-compose file includes all the listed environment variables, and can be configured for local running there.
+
+Enable the following services with `chs-dev services enable`:
+- kafka-error-consumer
+- kafka
+- zookeeper
+
+**Using and configuring kafka locally:**
+
+Enter into the kafka container using `docker exec -it docker-chs-development-kafka-1 bash`
+
+Cd into the folder with the kafka scripts using `cd /opt/bitnami/kafka/bin`, here you can run any of the scrips and it will print out the help information for that script
+
+You can check what topics have been created in your kafka instance using `./kafka-topics.sh --bootstrap-server localhost:9092 --list`
+this will allow you to confirm both your error queue and retry queue exist for your local testing
+
+You can push a message onto the kafka error topic you are using (in this example I am using insolvency-delta-error) 
+with the following command `./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic insolvency-delta-error`.
+You can then type a message, press enter, and exit the command with `command + c`
+
+You can check the content of the topic using `./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic insolvency-delta-error --from-beginning`
+
+Providing everything is working, you should see your message on the retry queue, confirming kafka-error-consumer is working correctly.
 
 Environment Variables
 ---------------------
@@ -43,5 +69,19 @@ KAFKA_ERROR_START_OFFSET                  | offset to start consuming from      
 KAFKA_ERROR_END_OFFSET                    | offset to consume to                                        |           | (to last record)   | 389
 KAFKA_ERROR_PARTITION                     | partition to consume from                                   |           | 0                  | 1
 LOGGER_NAMESPACE                          | namespace for CH structured logging                         | ✓         |                    | insolvency-delta-error-consumer
+#
+## ECR container
+### What does this code do?
+The code present in this repository is used to define and deploy a __kafka-error-consumer__ dockerised container image in AWS ECR, via the CICD platform 'Concourse'.
+
+The same kafka-error-consumer image will be used across 12 delta consumer services (for example [insolvency-delta-consumer](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/insolvency-delta-consumer)).  In this "delta-consumer" service, the kafka-error-consumer image is implemented as a pipeline resource called [kafka-error-release-tag](https://github.com/companieshouse/ci-pipelines/blob/7e0cfd7c9db47d0323e87f0956549796ef12d5a7/pipelines/ssplatform/team-development/insolvency-delta-consumer#L1274), which is used to deploy a corresponding kafka-error service alongside the delta consumer. This is done via terraform in an additional ecs-service-kafka-error module, within the insolvency-delta-consumer terraform code.
 
 #
+Application specific attributes | Value                                | Description
+:---------|:-----------------------------------------------------------------------------|:-----------
+**Concourse pipeline**     |[Pipeline link](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/kafka-error-consumer) <br> [Pipeline code](https://github.com/companieshouse/ci-pipelines/blob/master/pipelines/ssplatform/team-development/kafka-error-consumer)                               | Concourse pipeline link in shared services
+
+
+#
+### Contributing
+- Please refer to the [ECS Development and Infrastructure Documentation](https://companieshouse.atlassian.net/wiki/spaces/DEVOPS/pages/4390649858/Copy+of+ECS+Development+and+Infrastructure+Documentation+Updated) for detailed information on the infrastructure being deployed.
