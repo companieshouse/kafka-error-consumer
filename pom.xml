@@ -26,6 +26,7 @@
 		<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
 		<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
 		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+		<assertj-core.version>3.27.7</assertj-core.version>
 		<!-- Spring -->
 		<spring-boot-dependencies.version>3.5.3</spring-boot-dependencies.version>
 		<spring-kafka.version>3.3.7</spring-kafka.version>
@@ -116,6 +117,12 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
 			<version>${spring-kafka.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
