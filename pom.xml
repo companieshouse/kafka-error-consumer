@@ -21,7 +21,7 @@
 		<skip.unit.tests>false</skip.unit.tests>
 		<java.version>21</java.version>
 		<structured-logging.version>3.0.34</structured-logging.version>
-		<commons-lang3.version>3.17.0</commons-lang3.version>
+		<commons-lang3.version>3.20.0</commons-lang3.version>
 		<!-- Test -->
 		<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
 		<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
@@ -66,6 +66,33 @@
 				<version>${spring-boot-dependencies.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- explicit overrides -->
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-core</artifactId>
+				<version>10.1.52</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-el</artifactId>
+				<version>10.1.52</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-websocket</artifactId>
+				<version>10.1.52</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>2.25.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-to-slf4j</artifactId>
+				<version>2.25.3</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
