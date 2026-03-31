@@ -49,7 +49,6 @@
         <sonar.jacoco.reports>${project.basedir}/target/site</sonar.jacoco.reports>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
-		<kotlin.version>2.2.21</kotlin.version>
     </properties>
 
     <dependencyManagement>
@@ -95,12 +94,6 @@
                 <artifactId>log4j-to-slf4j</artifactId>
                 <version>2.25.3</version>
             </dependency>
-			<!-- CVE-2020-29582(5.3) -->
-			<dependency>
-				<groupId>org.jetbrains.kotlin</groupId>
-				<artifactId>kotlin-stdlib</artifactId>
-				<version>${kotlin.version}</version>
-			</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -124,6 +117,16 @@
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.opentelemetry</groupId>
+                    <artifactId>opentelemetry-exporter-sender-okhttp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.opentelemetry.contrib</groupId>
+                    <artifactId>opentelemetry-aws-resources</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -139,6 +142,10 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-sender-jdk</artifactId>
         </dependency>
 
         <!-- Test -->
