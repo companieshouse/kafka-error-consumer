@@ -24,11 +24,17 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, byte[]> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaErrorProperties.getBootstrapAddress());
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
-        configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, kafkaErrorProperties.getEnableIdempotence());
-        return new DefaultKafkaProducerFactory<>(configProps, new StringSerializer(), new ByteArraySerializer());
+        configProps.put(
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                kafkaErrorProperties.getBootstrapAddress());
+        configProps.put(
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class);
+        configProps.put(
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                ByteArraySerializer.class);
+        return new DefaultKafkaProducerFactory(configProps, new StringSerializer(),
+                new ByteArraySerializer());
     }
 
     @Bean
