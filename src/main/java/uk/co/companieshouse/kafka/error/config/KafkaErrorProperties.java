@@ -18,7 +18,9 @@ public class KafkaErrorProperties {
 
     private String consumerGroupId = "kafka-error";
 
-    private String bootstrapAddress = "localhost:9092";
+    private String errorBootstrapAddress = "localhost:9092";
+
+    private String retryBootstrapAddress = "localhost:9092";
 
     private Long startOffset;
 
@@ -52,12 +54,20 @@ public class KafkaErrorProperties {
         this.consumerGroupId = consumerGroupId;
     }
 
-    public String getBootstrapAddress() {
-        return bootstrapAddress;
+    public String getErrorBootstrapAddress() {
+        return errorBootstrapAddress;
     }
 
-    public void setBootstrapAddress(String bootstrapAddress) {
-        this.bootstrapAddress = bootstrapAddress;
+    public void setErrorBootstrapAddress(String errorBootstrapAddress) {
+        this.errorBootstrapAddress = errorBootstrapAddress;
+    }
+
+    public String getRetryBootstrapAddress() {
+        return retryBootstrapAddress;
+    }
+
+    public void setRetryBootstrapAddress(String retryBootstrapAddress) {
+        this.retryBootstrapAddress = retryBootstrapAddress;
     }
 
     public Long getStartOffset() {

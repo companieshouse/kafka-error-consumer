@@ -37,7 +37,7 @@ public class KafkaConsumerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                kafkaErrorProperties.getBootstrapAddress());
+                kafkaErrorProperties.getErrorBootstrapAddress());
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
                 kafkaErrorProperties.getConsumerGroupId());

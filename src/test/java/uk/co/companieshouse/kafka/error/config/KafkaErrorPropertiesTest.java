@@ -30,7 +30,7 @@ public class KafkaErrorPropertiesTest {
         assertThat(kafkaErrorProperties.getErrorTopic(), is("testErrorTopic"));
         assertThat(kafkaErrorProperties.getRetryTopic(), is("testRetryTopic"));
         assertThat(kafkaErrorProperties.getConsumerGroupId(), is("testConsumerGroupId"));
-        assertThat(kafkaErrorProperties.getBootstrapAddress(), is("localhost:9092"));
+        assertThat(kafkaErrorProperties.getErrorBootstrapAddress(), is("localhost:9092"));
 
     }
 }
