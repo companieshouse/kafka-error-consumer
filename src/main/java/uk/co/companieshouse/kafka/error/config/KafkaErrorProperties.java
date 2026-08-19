@@ -20,15 +20,13 @@ public class KafkaErrorProperties {
 
     private String errorBootstrapAddress = "localhost:9092";
 
-    private String retryBootstrapAddress = "localhost:9092";
+    private String retryBootstrapAddress = errorBootstrapAddress; // Use the same address unless overridden
 
     private Long startOffset;
 
     private Long endOffset;
 
     private Integer partition = 0;
-
-    private Boolean enableIdempotence = true;
 
     public String getRetryTopic() {
         return retryTopic;
@@ -92,13 +90,5 @@ public class KafkaErrorProperties {
 
     public void setPartition(Integer partition) {
         this.partition = partition;
-    }
-
-    public Boolean getEnableIdempotence() {
-        return enableIdempotence;
-    }
-
-    public void setEnableIdempotence(Boolean enableIdempotence) {
-        this.enableIdempotence = enableIdempotence;
     }
 }
