@@ -6,17 +6,17 @@ A generic consumer application to move messages from a Kafka error topic to a re
 
 This application will move records from its configured error topic into the configured retry topic.
 
-The default behaviour is to start at the previous offset and continue processing until it reaches the offset which was current when the application started. The application then stops consuming records, but does not end so that it is not restarted by the infrastructure.
+The default behaviour is to resume from the committed offset and replay through the last record present when the first record is consumed. The application then pauses consumption, but keeps running so that it is not restarted by the infrastructure. Explicit start and end offsets override these defaults; the end offset is inclusive.
 
 New consumers will start at the earliest offset (`ConsumerConfig.AUTO_OFFSET_RESET_CONFIG = "earliest"`).
 
 Example 
 
 - The last time it ran, the application consumed records from the error topic up to 55.
-- When it starts, the current offset is 450.
+- When it consumes the first record, the last available record has offset 450.
 - The application will move records from the error topic, between offsets 56 and 450, to the retry topic and then stop consuming.
 
-Currently, this application will only process records on partition 0 of the error topic. This simplifies management of offsets, which are different on each partition.
+This application processes one configured partition of the error topic, defaulting to partition 0. Set `KAFKA_ERROR_PARTITION` to select another partition. Offsets are independent on each partition.
 
 ## Requirements
 In order to build kafka-error-consumer locally you will need the following:
@@ -27,6 +27,58 @@ In order to build kafka-error-consumer locally you will need the following:
 ## Getting started
 1. Run mvn clean install
 2. Run mvn spring-boot:run
+
+## Automated replay tests
+
+Run the unit, embedded Kafka and container integration tests with:
+
+```bash
+mvn clean verify
+```
+
+The container tests require a running Docker daemon. Testcontainers creates an
+isolated Kafka broker, random host ports, and unique topics and consumer groups.
+The tests do not connect to your `chs-dev` broker or use its messages. Docker
+must support pausing containers for the broker-interruption scenario.
+
+The integration suites cover:
+
+- Exact binary payload forwarding and the replay timestamp header.
+- Inclusive start/end offsets, ordered replay, and no forwarding after pausing.
+- The default cutoff captured on the first consumed record, including startup
+  with an empty topic and messages arriving after the cutoff.
+- Selection of a non-default partition without consuming another partition.
+- Restarting from committed progress and explicitly replaying earlier offsets.
+- Recovery of an in-flight message after a brief broker interruption.
+- Deployment environment-variable binding, mandatory topic validation, defaults,
+  and the health endpoint remaining UP after replay pauses.
+
+Run just the container integration tests with `make test-integration`, or:
+
+```bash
+mvn verify -Dskip.unit.tests=true
+```
+
+Run the existing fast tests without containers with:
+
+```bash
+mvn test -Dskip.integration.tests=true
+```
+
+The container broker is pinned to `confluentinc/cp-kafka:7.8.0` (Kafka 3.8).
+Use the same image before and after a framework upgrade so that broker changes
+do not obscure application regressions. Override it with
+`-Dkafka.test.image=confluentinc/cp-kafka:<version>` (Confluent 7.4 or newer).
+This suite does not replace a smoke test against the actual deployment broker,
+including the legacy Kafka 2.8 broker in `chs-dev`.
+
+Surefire results are written to `target/surefire-reports`; container integration
+results are written to `target/failsafe-reports`. Use `verify`, not just
+`integration-test`, so Failsafe failures fail the build.
+
+The interruption test covers a transient outage followed by recovery, not
+exactly-once delivery or permanent producer rejection. Those guarantees are not
+established by these tests.
 
 ## Running Locally
 
