@@ -26,7 +26,7 @@ import uk.co.companieshouse.kafka.error.config.KafkaErrorProperties;
         bootstrapServersProperty = "kafka.error.bootstrapAddress")
 @DirtiesContext
 @EnableConfigurationProperties(value = KafkaErrorProperties.class)
-class DltConsumerEmbeddedKafkaTest {
+class DltConsumerEmbeddedKafkaIT {
 
     @Autowired
     private TestConsumer consumer;
