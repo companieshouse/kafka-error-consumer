@@ -7,7 +7,7 @@
     <parent>
         <groupId>uk.gov.companieshouse</groupId>
         <artifactId>companies-house-parent</artifactId>
-        <version>2.1.12</version>
+        <version>3.0.0</version>
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
@@ -23,22 +23,17 @@
         <structured-logging.version>3.0.34</structured-logging.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <!-- Test -->
-        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
-        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <assertj-core.version>3.27.7</assertj-core.version>
         <!-- Spring -->
         <spring-boot-dependencies.version>3.5.9</spring-boot-dependencies.version>
         <spring-kafka.version>3.3.7</spring-kafka.version>
         <opentelemetry-instrumentation-bom.version>2.14.0</opentelemetry-instrumentation-bom.version>
         <!-- Sonar dependency -->
-        <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
         <sonar.projectName>kafka-error-consumer</sonar.projectName>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.projectKey>uk.gov.companieshouse:kafka-error-consumer</sonar.projectKey>
         <sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
-        <sonar.login></sonar.login>
-        <sonar.password></sonar.password>
         <sonar.sources>src/main</sonar.sources>
         <sonar.tests>src/test</sonar.tests>
         <sonar.verbose>true</sonar.verbose>
@@ -47,7 +42,6 @@
             ${project.basedir}/target/site/jacoco-it/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reports>${project.basedir}/target/site</sonar.jacoco.reports>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
         <kafka.test.image>confluentinc/cp-kafka:7.8.0</kafka.test.image>
     </properties>
@@ -190,10 +184,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
@@ -210,14 +201,6 @@
                     <to>
                         <image>416670754337.dkr.ecr.eu-west-2.amazonaws.com/kafka-error-consumer:latest</image>
                     </to>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <skipTests>${skip.unit.tests}</skipTests>
                 </configuration>
             </plugin>
             <plugin>
@@ -247,7 +230,6 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
