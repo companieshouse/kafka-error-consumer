@@ -147,9 +147,9 @@ abstract class KafkaIntegrationSupport {
                                         && bean instanceof ConcurrentKafkaListenerContainerFactory<?, ?> factory) {
                                     // Seed records before starting the real listener, without replacing its factory.
                                     factory.setAutoStartup(false);
-                                    factory.setRecordInterceptor((record, consumer) -> {
-                                        beforeRecord.accept(record.offset());
-                                        return record;
+                                    factory.setRecordInterceptor((consumerRecord, consumer) -> {
+                                        beforeRecord.accept(consumerRecord.offset());
+                                        return consumerRecord;
                                     });
                                 }
                                 return bean;
@@ -223,8 +223,8 @@ abstract class KafkaIntegrationSupport {
     }
 
     void assertPayloads(List<ConsumerRecord<String, byte[]>> records, String... expected) {
-        assertThat(records).extracting(record ->
-                new String(record.value(), StandardCharsets.UTF_8)).containsExactly(expected);
+        assertThat(records).extracting(consumerRecord ->
+                new String(consumerRecord.value(), StandardCharsets.UTF_8)).containsExactly(expected);
     }
 
     static void awaitRelease(CountDownLatch latch) {
