@@ -43,6 +43,7 @@
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reports>${project.basedir}/target/site</sonar.jacoco.reports>
         <jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
+        <kafka.test.image>confluentinc/cp-kafka:7.8.0</kafka.test.image>
     </properties>
 
     <dependencyManagement>
@@ -144,6 +145,11 @@
 
         <!-- Test -->
         <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -199,9 +205,20 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${skip.unit.tests}</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
+                    <skipITs>${skip.integration.tests}</skipITs>
+                    <systemPropertyVariables>
+                        <kafka.test.image>${kafka.test.image}</kafka.test.image>
+                    </systemPropertyVariables>
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>${failsafeArgLine}</argLine>
                     <!--This is a workaround for failsafe not running integration tests-->
