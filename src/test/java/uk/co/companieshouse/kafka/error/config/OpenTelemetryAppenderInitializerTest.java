@@ -14,7 +14,7 @@ class OpenTelemetryAppenderInitializerTest {
 
     private final ApplicationContextRunner runner = new ApplicationContextRunner()
             .withBean(OpenTelemetry.class, () -> mock(OpenTelemetry.class))
-            .withBean(OpenTelemetryAppenderInitializer.class);
+            .withUserConfiguration(OpenTelemetryAppenderInitializer.class);
 
     @Test
     void installsAppenderWhenEnabled() {
