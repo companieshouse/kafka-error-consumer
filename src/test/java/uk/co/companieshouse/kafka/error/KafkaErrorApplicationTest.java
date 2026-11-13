@@ -2,14 +2,14 @@ package uk.co.companieshouse.kafka.error;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.co.companieshouse.kafka.error.consumer.DltConsumer;
 
 @SpringBootTest
 @ActiveProfiles("test")
 // mock DltConsumer so it doesn't start listening to kafka
-@MockBean({DltConsumer.class})
+@MockitoBean(types = {DltConsumer.class})
 public class KafkaErrorApplicationTest {
 
     @Test
