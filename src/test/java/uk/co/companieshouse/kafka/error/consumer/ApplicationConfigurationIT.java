@@ -9,6 +9,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -21,6 +22,12 @@ import org.springframework.core.env.SystemEnvironmentPropertySource;
 import uk.co.companieshouse.kafka.error.config.KafkaErrorProperties;
 
 class ApplicationConfigurationIT extends KafkaIntegrationSupport {
+
+    @BeforeAll
+    static void clearEmbeddedKafkaProperty() {
+        // set by EmbeddedKafka in DltConsumerEmbeddedKafkaIT and not cleared afterwards
+        System.clearProperty("kafka.error.bootstrapAddress");
+    }
 
     private final ApplicationContextRunner configuration = new ApplicationContextRunner()
             .withUserConfiguration(BindingConfiguration.class);

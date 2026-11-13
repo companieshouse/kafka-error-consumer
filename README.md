@@ -86,12 +86,12 @@ Kafka-error-consumer is configured in docker-chs-project, the docker-compose fil
 
 Enable the following services with `chs-dev services enable`:
 - kafka-error-consumer
-- kafka
+- kafka3
 - zookeeper
 
 **Using and configuring kafka locally:**
 
-Enter into the kafka container using `docker exec -it docker-chs-development-kafka-1 bash`
+Enter into the kafka container using `docker exec -it docker-chs-development-kafka3-1 bash`
 
 Cd into the folder with the kafka scripts using `cd /opt/bitnami/kafka/bin`, here you can run any of the scrips and it will print out the help information for that script
 
@@ -103,6 +103,9 @@ with the following command `./kafka-console-producer.sh --bootstrap-server local
 You can then type a message, press enter, and exit the command with `command + c`
 
 You can check the content of the topic using `./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic insolvency-delta-error --from-beginning`
+
+To wait for new messages on insolvency-delta-retry, run this inside the Kafka container:
+`./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic insolvency-delta-retry`
 
 Providing everything is working, you should see your message on the retry queue, confirming kafka-error-consumer is working correctly.
 
